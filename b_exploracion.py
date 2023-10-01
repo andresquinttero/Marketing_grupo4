@@ -72,7 +72,7 @@ fig.show() # La mayoría de los usuarios califica entre 0 y 100 peliculas
 
 rating_users.describe()
 rating_users.tail(10)
-#### filtrar usuarios con más de 20 y menos de 750 peliculas calificadas (para tener calificaion confiable) y los que tienen mas de mill porque pueden ser no razonables
+#### filtrar usuarios con más de 20 y menos de 750 peliculas calificadas (para tener calificaion confiable) y los que tienen mas de mil, porque pueden ser no razonables
 
 rating_users2=pd.read_sql(''' SELECT userId AS user_id,
                          COUNT(*) AS rating_count
@@ -82,15 +82,15 @@ rating_users2=pd.read_sql(''' SELECT userId AS user_id,
                          ORDER BY rating_count asc
                          ''',conn )
 
-### ver distribucion despues de filtros,ahora se ve mas razonables
+### Ver distribucion despues de filtros, ahora se ve mas razonables
 rating_users2.describe()
 
 
-### graficar distribucion despues de filtrar datos
+### Graficar distribucion despues de filtrar datos
 fig  = px.histogram(rating_users2, x= 'rating_count', title= 'Histograma calificación por usuario')
 fig.show() 
 
-#### verificar cuantas calificaciones tiene cada pelicula
+#### Verificar cuantas calificaciones tiene cada pelicula
 rating_movies=pd.read_sql(''' select title ,
                          count(*) as rating_count
                          from movies inner join ratings on
@@ -99,11 +99,11 @@ rating_movies=pd.read_sql(''' select title ,
                          order by rating_count desc
                          ''',conn )
 
-### analizar distribucion de calificaciones por pelicula
+### Analizar distribucion de calificaciones por pelicula
 rating_movies
 rating_movies.describe()
 
-### graficar distribucion
+###  Graficar distribucion
 
 fig  = px.histogram(rating_movies, x= 'rating_count', title= 'Hist calificación para cada peli')
 fig.show()  
@@ -118,11 +118,11 @@ rating_movies2=pd.read_sql(''' select title ,
                          order by rating_count desc
                          ''',conn )
 
-# analizar distribucion de calificaciones por pelicula
+# Analizar distribucion de calificaciones por pelicula
 rating_movies2
 rating_movies2.describe()
 
-# graficar distribución
+# Graficar distribución
 fig  = px.histogram(rating_movies2, x= 'rating_count', title= 'Hist calificación para cada peli')
 fig.show()
 
@@ -144,7 +144,7 @@ te = TransactionEncoder()
 genres = te.fit_transform(genres) 
 genres = pd.DataFrame(genres, columns = te. columns_) 
 
-#Unimos la base de géneros con la base de películas
+# Unimos la base de géneros con la base de películas
 final = pd.concat([final, genres], axis=1)
 final = final.drop('genres', axis=1)
 final
