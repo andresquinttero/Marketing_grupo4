@@ -9,7 +9,7 @@ Definir un proceso de categorización que tenga en cuenta los gustos y preferenc
 
 ## **Problema analítico**
 
-1. Realizar una predicción para identificar a los empleados con riesgo de deserción.
+1. Perfilar el usuario de acuerdo a sus gustos.
 
 2. Implementar varios tipos de categorización sistemas de recomendación en paralelo. 
 
@@ -25,4 +25,7 @@ Definir un proceso de categorización que tenga en cuenta los gustos y preferenc
 
 ## **Fases del Proyecto** # 
 
-
+1. Crea perfiles de usuario basados en la información recopilada. Esto podría incluir la creación de vectores de características que representen las preferencias del usuario.
+2. Define las categorías de sistemas de recomendación que deseas implementar, como popularidad, contenido basado en producto, colaborativo y personalizado, Diseñando modelos específicos para cada categoría de sistema de recomendación e Integrando los diferentes sistemas de recomendación en la plataforma en paralelo para que puedan proporcionar recomendaciones simultáneamente.
+3. Diseña un modelo de recomendación personalizado que utilice técnicas de aprendizaje automático de modo que los usuarios reciban recomendaciones adaptadas a sus preferencias.
+4. Recolecta datos de evaluación, como las acciones de los usuarios en respuesta a las recomendacionesy a partir de los resultados, realiza ajustes y mejoras en los sistemas de recomendación para optimizar la precisión y la satisfacción del usuario.
