@@ -5,22 +5,24 @@
 
 ## **Objetivo General**
 
-Disminuir la tasa de deserción de los empleados de la empresa 
+Definir un proceso de categorización que tenga en cuenta los gustos y preferencias de los usuarios  
 
 ## **Problema analítico**
 
 1. Realizar una predicción para identificar a los empleados con riesgo de deserción.
 
-2. Analizar las variables generales que están influyendo en la deserción de los empleados. 
+2. Implementar varios tipos de categorización sistemas de recomendación en paralelo. 
 
-3. Analizar las variables relevantes de las personas con riesgo de deserción. Con el fin de crear medidas de alerta temprana que impida la renuncia de los empleados 
+3. Desarrollar un modelo que evalúe las características y preferencias de los usuarios y sugiera películas relevantes de acuerdo a las posibles preferencias de cada usuario.
+   
+4. Utilizar métricas de evaluación como la precisión, la tasa de clics y la retención de usuarios para medir la efectividad de cada sistema.
 
 ### **Diseño de solucion**
-![diseño de solucion](https://github.com/andresquinttero/grupotrabajo/assets/100113128/65c7102b-e35d-4d17-8e2a-bcd040c34b45)
+![image](https://github.com/andresquinttero/Marketing_grupo4/assets/100113128/fc47ea98-8527-4322-903d-d2d889bb7a95)
 
 
 ---
 
 ## **Fases del Proyecto** # 
-![sassd](https://github.com/andresquinttero/grupotrabajo/assets/100113128/79cdca6c-1a1e-464b-be0b-83d4b1072379)
+
 
