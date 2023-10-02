@@ -3,6 +3,9 @@ import pandas as pd
 import a_funciones as a_funciones 
 import plotly.graph_objs as go 
 import plotly.express as px
+from sklearn.preprocessing import MinMaxScaler
+from sklearn import neighbors
+from ipywidgets import interact
 
 # Recomendaciones por popularidad
 
@@ -147,11 +150,43 @@ fig.show()
 # Cargar los datos del DataFrame 'final'
 final = pd.read_sql_query('SELECT * FROM final', conn) 
 
-columnas = ~final.columns.isin(['userId','movieId','rating','title','year'])
-final.iloc[:,columnas] = final.iloc[:,columnas].astype(int)
-final
+
 
 # Base de datos con Titulo, rating, generos y año de las peliculas
 final= final.loc[:,~final.columns.isin(['userId','movieId'])]
-
 final
+
+final.to_sql('final2', conn, if_exists='replace', index=False)
+
+# agrupacion de la base Final2 por titulo y año
+final1 = pd.read_sql("""select *, avg(rating) as avg_rat
+                      from final2
+                      group by year, title
+                      order by year desc, avg_rat desc""", conn)
+final1
+
+# convertir columna 'year' a tipo entero y escalarlo
+final1['year']=final1.year.astype('int')
+sc=MinMaxScaler()
+final1[["year1"]]=sc.fit_transform(final1[['year']])
+
+# borrar variables innecesarias: el año sin escalar y ratings
+final2=final1.drop(columns=['year','rating','avg_rat'])
+final2
+
+# convertir a dummies el nombre de las peliculas
+final3=pd.get_dummies(final2,columns=['title'])
+final3
+
+# recomendacion de las primeras 10 peliculas con mayor similitud en contenido
+
+def recomendacion(movie=list(final1['title'])[0]):
+    ind_movie = final1[final1['title'] == movie].index.values.astype(int)[0]
+    similar_movie = final3.corrwith(final3.iloc[ind_movie, :], axis=1)
+    similar_movie = similar_movie.sort_values(ascending=False)
+    top_similar_movie = similar_movie.to_frame(name="correlación").iloc[0:11, ]
+    top_similar_movie['title'] = final1["title"]
+
+    return top_similar_movie
+
+interact(recomendacion)
