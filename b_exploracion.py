@@ -5,7 +5,7 @@ import plotly.graph_objs as go ### para gráficos
 import plotly.express as px
 from mlxtend.preprocessing import TransactionEncoder 
 
-# conectarse a la base de datos
+# Conectarse a la base de datos
 conn = sql.connect('databases/db_movies')
 
 # Crear el cursor
@@ -15,12 +15,12 @@ cur = conn.cursor()
 cur.execute("SELECT name FROM sqlite_master where type='table' ")
 cur.fetchall() 
 
-############ traer tablas de BD a python ####
+############ Traer tablas de BD a Python ############
 
 movies= pd.read_sql("""SELECT *  FROM movies""", conn)
 movie_ratings = pd.read_sql('SELECT * FROM ratings', conn)
 
-#####Exploración inicial #####
+##### Exploración inicial #####
 
 ### Identificar campos de cruce y verificar que estén en mismo formato ####
 ### verificar duplicados
@@ -36,21 +36,20 @@ movie_ratings.duplicated().sum()
 # Descripción base de movies
 movies
 
-##### Descripción base de movie_ratings
+##### Descripción base de movie_ratings #####
 
 # Convertirmos el timestamp de movie_ratings a formato fecha
 movie_ratings['timestamp'] = pd.to_datetime(movie_ratings['timestamp'], unit='s')
 movie_ratings
 
 
-
-###calcular la distribución de calificaciones
+### Calcular la distribución de calificaciones
 cr = pd.read_sql("""SELECT 
-                          rating AS rating, 
-                          COUNT(*) AS conteo 
-                          FROM ratings
-                          GROUP BY rating
-                          ORDER BY conteo DESC""", conn)
+                        rating AS rating, 
+                        COUNT(*) AS conteo 
+                        FROM ratings
+                        GROUP BY rating
+                        ORDER BY conteo DESC""", conn)
 
 cr
 
@@ -61,26 +60,27 @@ go.Figure(data,layout) # La mayoría de las calificaciones fueron de 4 y de 3
 
 ### Cuántas películas calificó cada usuario 
 rating_users=pd.read_sql(''' SELECT userId AS user_id,
-                         COUNT(*) AS rating_count
-                         FROM ratings
-                         GROUP BY userId
-                         ORDER BY rating_count asc
-                         ''',conn )
+                        COUNT(*) AS rating_count
+                        FROM ratings
+                        GROUP BY userId
+                        ORDER BY rating_count asc
+                        ''',conn )
 
 fig  = px.histogram(rating_users, x= 'rating_count', title= 'Histograma calificación por usuario')
 fig.show() # La mayoría de los usuarios califica entre 0 y 100 peliculas
 
 rating_users.describe()
 rating_users.tail(10)
-#### filtrar usuarios con más de 20 y menos de 750 peliculas calificadas (para tener calificaion confiable) y los que tienen mas de mil, porque pueden ser no razonables
+
+#### Filtrar usuarios con más de 20 y menos de 750 peliculas calificadas (para tener calificaion confiable) y los que tienen mas de mil, porque pueden ser no razonables
 
 rating_users2=pd.read_sql(''' SELECT userId AS user_id,
-                         COUNT(*) AS rating_count
-                         FROM ratings
-                         GROUP BY userId
-                         HAVING rating_count >=20 and rating_count <=750
-                         ORDER BY rating_count asc
-                         ''',conn )
+                        COUNT(*) AS rating_count
+                        FROM ratings
+                        GROUP BY userId
+                        HAVING rating_count >=20 and rating_count <=750
+                        ORDER BY rating_count asc
+                        ''',conn )
 
 ### Ver distribucion despues de filtros, ahora se ve mas razonables
 rating_users2.describe()
@@ -92,12 +92,12 @@ fig.show()
 
 #### Verificar cuantas calificaciones tiene cada pelicula
 rating_movies=pd.read_sql(''' select title ,
-                         count(*) as rating_count
-                         from movies inner join ratings on
-                         movies.movieID = ratings.movieID
-                         group by title
-                         order by rating_count desc
-                         ''',conn )
+                        count(*) as rating_count
+                        from movies inner join ratings on
+                        movies.movieID = ratings.movieID
+                        group by title
+                        order by rating_count desc
+                        ''',conn )
 
 ### Analizar distribucion de calificaciones por pelicula
 rating_movies
@@ -110,13 +110,13 @@ fig.show()
 
 # Peliculas con 5 o más calificaciones
 rating_movies2=pd.read_sql(''' select title ,
-                         count(*) as rating_count
-                         from movies inner join ratings on
-                         movies.movieID = ratings.movieID
-                         group by title
-                         having rating_count >=5
-                         order by rating_count desc
-                         ''',conn )
+                        count(*) as rating_count
+                        from movies inner join ratings on
+                        movies.movieID = ratings.movieID
+                        group by title
+                        having rating_count >=5
+                        order by rating_count desc
+                        ''',conn )
 
 # Analizar distribucion de calificaciones por pelicula
 rating_movies2
