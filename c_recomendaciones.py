@@ -12,7 +12,7 @@ conn = sql.connect('databases/db_movies')
 # Crear el cursor
 cur = conn.cursor()
 
- # Año de las peliculas más populares
+# Año de las peliculas más populares
 sql1 = pd.read_sql('''  SELECT year, count(title) AS numberOfMovies 
                  FROM final 
                  GROUP BY year 
@@ -127,7 +127,31 @@ FROM (
 GROUP BY genero;
  """, conn)
 
-# Gráfica
-fig = px.bar(sql6, x='genero', y='mejor_calificacion', color='genero', title='Mejor calificación por género', text='title')
-fig.update_layout(showlegend=False)
+# Peliculas mejor calificas por año de lanzamiento
+sql7 = pd.read_sql('''SELECT title, year, AVG(rating) AS average_rating
+                      FROM final
+                      GROUP BY year, title
+                      ORDER BY year, average_rating DESC''', conn)
+
+fig = px.bar(sql7, x='year', y='average_rating', color='title', title='Peliculas mejor calificas por año de lanzamiento')
+fig.update_layout(
+    autosize=False,
+    width=1000,
+    height=600,
+    margin=dict(l=50, r=50, b=100, t=100, pad=4)
+)
 fig.show()
+
+
+# Recomendaciones basadas en el contenido de un producto
+# Cargar los datos del DataFrame 'final'
+final = pd.read_sql_query('SELECT * FROM final', conn) 
+
+columnas = ~final.columns.isin(['userId','movieId','rating','title','year'])
+final.iloc[:,columnas] = final.iloc[:,columnas].astype(int)
+final
+
+# Base de datos con Titulo, rating, generos y año de las peliculas
+final= final.loc[:,~final.columns.isin(['userId','movieId'])]
+
+final
