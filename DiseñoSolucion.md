@@ -17,7 +17,8 @@ Definir un proceso de categorización que tenga en cuenta los gustos y preferenc
 3. Utilizar métricas de evaluación como la precisión, la tasa de clics y la retención de usuarios para medir la efectividad de cada sistema.
 
 ### **Diseño de solucion**
-![pro2](https://github.com/andresquinttero/Marketing_grupo4/assets/100113128/ea91073e-fcc8-4b7c-9233-fd7ce031ef61)
+![pro2](https://github.com/andresquinttero/Marketing_grupo4/assets/100113128/63a41032-19cd-448c-a422-54ebcd0aab95)
+
 
 
 
